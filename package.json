@@ -45,11 +45,12 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "set PORT=4100 && react-scripts start",
+    "start": "set PORT=4100 && react-scripts start && node index.js",
     "build": "react-scripts build",
     "test": "react-scripts test && jest",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "heroku-postbuild": "cd heroku && npm install && npm run build"
   },
   "eslintConfig": {
     "extends": [
