@@ -1,6 +1,5 @@
 {
   "homepage": ".",
-  "proxy": "http://localhost:5000",
   "name": "newbase",
   "version": "0.1.0",
   "engines": {
@@ -26,6 +25,7 @@
     "firebase": "^9.4.1",
     "formik": "^2.2.9",
     "history": "^5.1.0",
+    "http-proxy-middleware": "^2.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^17.0.2",
