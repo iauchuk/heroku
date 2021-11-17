@@ -1,5 +1,6 @@
 {
   "homepage": "https://iauchuk.github.io/",
+  "proxy": "http://localhost:5000",
   "name": "newbase",
   "version": "0.1.0",
   "engines": {
