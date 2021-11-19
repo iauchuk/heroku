@@ -122,6 +122,7 @@ const MultiGridConfig = (props: MultiGridConfigInterface) => {
           classNameTopRightGrid={styled.topRightGrid}
           classNameBottomLeftGrid={styled.bottomLeftGrid}
           classNameBottomRightGrid={styled.bottomRightGrid}
+          className={styled.defaultGridStyle}
           fixedColumnCount={1}
           fixedRowCount={1}
           height={heightRenderer()}

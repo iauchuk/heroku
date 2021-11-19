@@ -3,15 +3,22 @@ import { makeStyles } from "@mui/styles";
 const styledUserInfoList = makeStyles({
   topLeftGrid: {
     background: "grey",
+    borderBottom: "2px solid #aaa",
+    borderRight: "2px solid #aaa",
   },
   topRightGrid: {
     background: "grey",
+    borderBottom: "2px solid #aaa",
   },
   bottomLeftGrid: {
     background: "grey",
+    borderRight: "2px solid #aaa",
   },
   bottomRightGrid: {
     background: "lightgrey",
+    "& > div > div": {
+      border: "1px solid black",
+    },
     "&::-webkit-scrollbar": {
       width: `6px`,
       height: `6px`,
