@@ -3,10 +3,14 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  FormControl,
+  IconButton,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { ErrorMessage, Field, Form, Formik, getIn } from "formik";
 import * as Yup from "yup";
 import * as _ from "lodash";
@@ -17,7 +21,6 @@ import {
   validationErrorShort,
 } from "../../../constants/validationConst";
 import { default_regexp } from "../../../constants/appConsts";
-// import { isPresent } from "../../../helpers/helpers";
 import Typography from "../../typography/typography";
 import styledButton from "../../../styles/button.styles";
 import styledSelectMenu from "../../../styles/selectMenu.styles";
@@ -36,28 +39,16 @@ interface FormDialogPropsInterface {
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
+    .min(1, validationErrorShort)
+    .max(50, validationErrorLong)
     .matches(default_regexp, validationErrorInvalidFormat)
     .required(validationErrorRequired),
   surname: Yup.string()
     .min(1, validationErrorShort)
     .max(50, validationErrorLong)
+    .matches(default_regexp, validationErrorInvalidFormat)
     .required(validationErrorRequired),
 });
-
-// const selectInitialOptions = [
-//   {
-//     name: "Admin",
-//     value: "admin",
-//   },
-//   {
-//     name: "Editor",
-//     value: "editor",
-//   },
-//   {
-//     name: "User",
-//     value: "user",
-//   },
-// ];
 
 export const UserInfoFormDialog = (props: FormDialogPropsInterface) => {
   const { isOpen, onSubmit, onClose, initValue, dialogTitle, options } = props;
@@ -107,12 +98,24 @@ export const UserInfoFormDialog = (props: FormDialogPropsInterface) => {
   return (
     <Dialog
       className={userInfoFormDialogStyled.dialogWrapper}
-      onClose={handleClose}
       open={isOpen || false}
     >
-      <DialogTitle>
-        <Typography text={dialogTitle} />
-      </DialogTitle>
+      <div className={userInfoFormDialogStyled.dialogHead}>
+        <DialogTitle className={userInfoFormDialogStyled.dialogTitle}>
+          <Typography text={dialogTitle} />
+        </DialogTitle>
+        {onClose ? (
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </div>
       <Formik
         innerRef={formikRef}
         initialValues={initValue}
@@ -124,77 +127,90 @@ export const UserInfoFormDialog = (props: FormDialogPropsInterface) => {
       >
         {({ values, errors, touched, setFieldValue }) => (
           <Form>
-            <Select
-              defaultValue={role}
-              value={role}
-              name="role"
-              label="Role"
-              className={selectMenuStyled.selectMenu}
-              onChange={(e) => {
-                setRole(e.target.value);
-                setFieldValue(e.target.name, e.target.value);
-              }}
-            >
-              (
-              {_.map(selectList, (option: any, index: number) => (
-                <MenuItem key={index} value={option.value}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <ErrorMessage
-              className={errorMessageStyled.errorMessage}
-              name="role"
-              component="div"
-            />
-            <Field type="text" name="name">
-              {({ field }: any) => (
-                <div>
-                  <TextField
-                    id="outlined-size-small"
-                    className={userInfoFormDialogStyled.inputWrapper}
-                    label="Name"
-                    size="small"
-                    variant="outlined"
-                    value={values && values.name}
-                    error={touched.name && isValid(errors, "name")}
-                    onChange={(event) =>
-                      setFieldValue("name", event.target.value)
-                    }
-                    {...field}
-                  />
-                </div>
-              )}
-            </Field>
-            <ErrorMessage
-              className={errorMessageStyled.errorMessage}
-              name="name"
-              component="div"
-            />
-            <Field type="text" name="surname">
-              {({ field }: any) => (
-                <div>
-                  <TextField
-                    id="outlined-size-small"
-                    className={userInfoFormDialogStyled.inputWrapper}
-                    label="Surname"
-                    size="small"
-                    variant="outlined"
-                    value={values && values.surname}
-                    error={touched.surname && isValid(errors, "surname")}
-                    onChange={(event) =>
-                      setFieldValue("surname", event.target.value)
-                    }
-                    {...field}
-                  />
-                </div>
-              )}
-            </Field>
-            <ErrorMessage
-              className={errorMessageStyled.errorMessage}
-              name="surname"
-              component="div"
-            />
+            <FormControl>
+              <InputLabel
+                id="selectMenuRoleLabel"
+                className={selectMenuStyled.selectMenuLabel}
+              >
+                Role
+              </InputLabel>
+              <Select
+                labelId="selectMenuRoleLabel"
+                defaultValue={role}
+                value={role}
+                name="role"
+                label="Role"
+                className={selectMenuStyled.selectMenu}
+                onChange={(e) => {
+                  setRole(e.target.value);
+                  setFieldValue(e.target.name, e.target.value);
+                }}
+              >
+                (
+                {_.map(selectList, (option: any, index: number) => (
+                  <MenuItem key={index} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              <ErrorMessage
+                className={errorMessageStyled.errorMessage}
+                name="role"
+                component="div"
+              />
+            </FormControl>
+            <FormControl>
+              <Field type="text" name="name">
+                {({ field }: any) => (
+                  <div>
+                    <TextField
+                      id="outlined-size-small"
+                      className={userInfoFormDialogStyled.inputWrapper}
+                      label="Name"
+                      size="small"
+                      variant="outlined"
+                      value={values && values.name}
+                      error={touched.name && isValid(errors, "name")}
+                      onChange={(event) =>
+                        setFieldValue("name", event.target.value)
+                      }
+                      {...field}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                className={errorMessageStyled.errorMessage}
+                name="name"
+                component="div"
+              />
+            </FormControl>
+            <FormControl>
+              <Field type="text" name="surname">
+                {({ field }: any) => (
+                  <div>
+                    <TextField
+                      id="outlined-size-small"
+                      className={userInfoFormDialogStyled.inputWrapper}
+                      label="Surname"
+                      size="small"
+                      variant="outlined"
+                      value={values && values.surname}
+                      error={touched.surname && isValid(errors, "surname")}
+                      onChange={(event) =>
+                        setFieldValue("surname", event.target.value)
+                      }
+                      {...field}
+                    />
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                className={errorMessageStyled.errorMessage}
+                name="surname"
+                component="div"
+              />
+            </FormControl>
             <Button
               className={buttonStyled.button}
               type="submit"

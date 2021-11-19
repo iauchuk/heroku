@@ -22,7 +22,7 @@ export const UserInfoHeader = () => {
   const [dialogTitle, setDialogTitle] = useState("");
   const handleOpenDialog = () => {
     setStatusDialog(true);
-    setDialogTitle("Add");
+    setDialogTitle(userInfoHeaderLabel.dialogStatusAdd);
     getRoles()(dispatch);
   };
 
@@ -46,7 +46,7 @@ export const UserInfoHeader = () => {
         className={buttonStyled.button}
         onClick={handleOpenDialog}
       >
-        {userInfoHeaderLabel.add}
+        {userInfoHeaderLabel.addButton}
       </Button>
       {!!userInfoInitial ? (
         <UserInfoFormDialog

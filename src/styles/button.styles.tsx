@@ -19,6 +19,14 @@ const styledButton = makeStyles({
     '&.MuiButton-outlined': {
       color: 'darkblue'
     }
+  },
+  likeButton: {
+    '&.MuiIconButton-root': {
+        '&:hover': {
+        color: 'darkblue',
+        backgroundColor: 'inherit'
+      }
+    }
   }
 });
 

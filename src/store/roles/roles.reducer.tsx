@@ -13,6 +13,7 @@ const rolesSlice = createSlice({
       return {
         ...state,
         isRolesLoading: true,
+        isFetching: true,
       };
     },
     [getRoles.fulfilled]: (state, action) => {
@@ -20,12 +21,14 @@ const rolesSlice = createSlice({
         ...state,
         rolesList: action.payload,
         isRolesLoading: false,
+        isFetching: false,
       };
     },
     [getRoles.rejected]: (state) => {
       return {
         ...state,
         isRolesLoading: false,
+        isFetching: false,
       };
     },
   },
