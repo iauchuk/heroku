@@ -15,12 +15,15 @@ import {
 import { userInfoListLabels } from "./userInfoList.labels";
 import Typography from "../../typography/typography";
 import { getRoles } from "../../../store/roles/roles.actions";
+import styledUserInfoList from "./userInfoList.styles";
+import MultiGridConfig from "../userInfoHeader/multiGrid/multiGrid.config";
 
 export const UserInfoList = () => {
   const dispatch = useDispatch();
   const [statusDialog, setStatusDialog] = useState(false);
   const [editableUser, setEditableUser] = useState(userInfoInitial);
   const [dialogTitle, setDialogTitle] = useState("");
+  const userInfoListStyled = styledUserInfoList();
 
   useEffect(() => {
     getUsersInfo()(dispatch);
@@ -43,7 +46,7 @@ export const UserInfoList = () => {
   const editUserItem = (id: string) => {
     setEditableUser(_.find(userInfoList, { id: id }) as UsersInfoInterface);
     setStatusDialog(true);
-    setDialogTitle("Edit");
+    setDialogTitle(userInfoListLabels.dialogStatusEdit);
     getRoles()(dispatch);
   };
 
@@ -59,26 +62,49 @@ export const UserInfoList = () => {
   return (
     <div>
       {isExistUserInfoList ? (
-        <List>
-          {_.map(
-            userInfoList,
-            (userInfoItem: UsersInfoInterface, index: number) => (
-              <ListItem key={index}>
-                <ListItemText>{userInfoItem.name}</ListItemText>
-                <ListItemText>{userInfoItem.surname}</ListItemText>
-                <ListItemText>{userInfoItem.role}</ListItemText>
-                <EditBlock
-                  primaryEvent={() => {
-                    editUserItem(userInfoItem.id);
-                  }}
-                  secondaryEvent={() => {
-                    deleteUserItem(userInfoItem.id);
-                  }}
-                />
-              </ListItem>
-            )
-          )}
-        </List>
+        <div>
+          <List>
+            {_.map(
+              userInfoList,
+              (userInfoItem: UsersInfoInterface, index: number) => (
+                <ListItem
+                  key={index}
+                  className={userInfoListStyled.userInfoElement}
+                >
+                  {userInfoItem.name || userInfoItem.surname ? (
+                    <ListItemText
+                      className={userInfoListStyled.userInfoContentWrapper}
+                    >
+                      <Typography text={userInfoListLabels.fullName} />
+                      {userInfoItem.name} {userInfoItem.surname}
+                    </ListItemText>
+                  ) : (
+                    ""
+                  )}
+
+                  {userInfoItem.role ? (
+                    <ListItemText
+                      className={userInfoListStyled.userInfoContentWrapper}
+                    >
+                      <Typography text={userInfoListLabels.role} />
+                      {userInfoItem.role}
+                    </ListItemText>
+                  ) : (
+                    ""
+                  )}
+                  <EditBlock
+                    primaryEvent={() => {
+                      editUserItem(userInfoItem.id);
+                    }}
+                    secondaryEvent={() => {
+                      deleteUserItem(userInfoItem.id);
+                    }}
+                  />
+                </ListItem>
+              )
+            )}
+          </List>
+        </div>
       ) : (
         <Typography text={userInfoListLabels.emptyList} />
       )}

@@ -1,74 +1,85 @@
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 
 interface styledCustomTableInterface {
-  backgroundHeader: string,
-  backgroundFirsts: string,
+  backgroundHeader: string;
+  backgroundFirsts: string;
 }
 
 const styledCustomTable = makeStyles({
-  customTableWrapper: {
-    height: `520px`,
-    width: `100%`,
-    '& tbody': {
-      '& td, & th': {
-        '&:first-child, &:nth-child(2)': {
-        position: 'sticky',
-        zIndex: 2,
-        background: (props: styledCustomTableInterface) => {return props.backgroundFirsts}
-      },
-      }
+  customTable: {
+    "&.MuiPaper-root": {
+      borderRadius: 0,
+      boxShadow: `none`,
     },
-    '& th': {
+  },
+  customTableWrapper: {
+    height: `calc(100vh - 72px - 70px);`,
+    width: `100%`,
+    "& tbody": {
+      "& td, & th": {
+        "&:first-child, &:nth-child(2)": {
+          position: "sticky",
+          zIndex: 2,
+          background: (props: styledCustomTableInterface) => {
+            return props.backgroundFirsts;
+          },
+        },
+      },
+    },
+    "& th": {
       position: `sticky`,
       top: 0,
       zIndex: 3,
-      background: (props: styledCustomTableInterface) => {return props.backgroundHeader},
-      textAlign: `right`,
-      '&:first-child': {
-        left: 0
+      background: (props: styledCustomTableInterface) => {
+        return props.backgroundHeader;
       },
-      '&:nth-child(2)': {
+      textAlign: `right`,
+      "&:first-child": {
+        left: 0,
+      },
+      "&:nth-child(2)": {
         left: `150px`,
       },
-      '&:first-child, &:nth-child(2)': {
+      "&:first-child, &:nth-child(2)": {
         zIndex: 4,
-        '& p': {
+        "& p": {
           width: `inherit`,
-        }
-      }
+        },
+      },
     },
-    '& td': {
-      '& p': {
+    "& td": {
+      "& p": {
         wordBreak: `break-word`,
-      }
+      },
     },
-    '& th, & td': {
+    "& th, & td": {
       overflow: `hidden`,
       minWidth: `150px`,
       width: `800px`,
-      '&:first-child, &:nth-child(2)': {
+      "&:first-child, &:nth-child(2)": {
         width: `150px`,
         maxWidth: `150px`,
         boxSizing: `border-box`,
         textAlign: `left`,
-      }
-    }
+      },
+    },
   },
   customTableWrapperImage: {
     maxWidth: `80px`,
     maxHeight: `80px`,
   },
   contentCell: {
-    '&  p': {
+    "&  p": {
       maxWidth: `300px`,
       overflow: `hidden`,
       textOverflow: `ellipsis`,
       whiteSpace: `nowrap`,
-    }
+    },
   },
   pagination: {
     float: `left`,
-  }
+    height: "70px",
+  },
 });
 
 export default styledCustomTable;

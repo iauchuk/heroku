@@ -1,3 +1,4 @@
 export const userInfoHeaderLabel = {
-  add: "Add",
+  addButton: "Add",
+  dialogStatusAdd: "Adding mode",
 };

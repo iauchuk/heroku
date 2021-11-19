@@ -28,12 +28,15 @@ import { NewsColumnConfigInterface } from "../../interfaces/newsInterfaces/newsC
 import { NewsTablePropsInterface } from "../../interfaces/newsInterfaces/newsTablePropsInterface";
 import { customTableLabels } from "./customTable.labels";
 import Typography from "../typography/typography";
-import {Moment} from "../../helpers/moment/moment";
+import { Moment } from "../../helpers/moment/moment";
 import styledCustomTable from "./customTable.styles";
+import styledButton from "../../styles/button.styles";
+import CustomTooltip from "../customTooltip/customTooltip";
 
 export const TablePaginationActions = (props: TablePaginationInterface) => {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
+  const paginationButtonStyle = styledButton();
 
   const handleBackButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -51,6 +54,7 @@ export const TablePaginationActions = (props: TablePaginationInterface) => {
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
         onClick={handleBackButtonClick}
+        className={paginationButtonStyle.likeButton}
         disabled={page === 0}
         aria-label="previous page"
       >
@@ -62,6 +66,7 @@ export const TablePaginationActions = (props: TablePaginationInterface) => {
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
+        className={paginationButtonStyle.likeButton}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
@@ -79,7 +84,10 @@ export const CustomTable = (props: NewsTablePropsInterface) => {
   const { rows, columns } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customTableStyled = styledCustomTable({backgroundHeader: `#0D5CFF`, backgroundFirsts: `lightgrey`});
+  const customTableStyled = styledCustomTable({
+    backgroundHeader: `#0D5CFF`,
+    backgroundFirsts: `lightgrey`,
+  });
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -96,8 +104,11 @@ export const CustomTable = (props: NewsTablePropsInterface) => {
   };
 
   return (
-    <Paper>
-      <TableContainer className={customTableStyled.customTableWrapper} component={Paper}>
+    <Paper className={customTableStyled.customTable}>
+      <TableContainer
+        className={customTableStyled.customTableWrapper}
+        component={Paper}
+      >
         <Table
           sx={{ minWidth: 650, maxHeight: 500 }}
           aria-label="simple table"
@@ -115,87 +126,101 @@ export const CustomTable = (props: NewsTablePropsInterface) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row: NewsItem, index: number) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell
-                  style={{
-                    left: 0,
-                  }}
-                  component="th"
-                  scope="row"
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: NewsItem, index: number) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <Typography text={row.language} />
-                </TableCell>
-                <TableCell
-                  align="right"
-                  style={{
-                    left: 99,
-                  }}
-                >
-                  <Typography text={row.id} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.fingerprint} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.keywords} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.originId} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.origin.htmlUrl} />
-                  <Typography text={row.origin.streamId} />
-                  <Typography text={row.origin.title} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.title} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.author} />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={Moment(default_time_format, row.crawled)}/>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={Moment(default_time_format, row.published)}/>
-                </TableCell>
-                <TableCell align="right" className={customTableStyled.contentCell}>
-                  <Typography text={row.summary.content} />
-                </TableCell>
-                <TableCell align="right">
-                  {row.alternate.map((item: Alternate) => (
-                    <Link
-                      key={item.href}
-                      target="_blank"
-                      href={item.href}
-                      type={item.type}
-                    >
-                      Link
-                    </Link>
-                  ))}
-                </TableCell>
-                <TableCell align="right">
-                  <img
-                    className={customTableStyled.customTableWrapperImage}
-                    alt="News view"
-                    src={row.visual.url}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <Typography text={row.canonicalUrl} />
-                </TableCell>
-                <TableCell align="right">
-                  {TransferBooleanPipe(row.unread, readingLabelsStatus)}
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell
+                    style={{
+                      left: 0,
+                    }}
+                    component="th"
+                    scope="row"
+                  >
+                    <Typography text={row.language} />
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    style={{
+                      left: 150,
+                    }}
+                  >
+                    <Typography text={row.id} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.fingerprint} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.keywords} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.originId} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.origin.htmlUrl} />
+                    <Typography text={row.origin.streamId} />
+                    <Typography text={row.origin.title} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.title} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.author} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography
+                      text={Moment(default_time_format, row.crawled)}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography
+                      text={Moment(default_time_format, row.published)}
+                    />
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    className={customTableStyled.contentCell}
+                  >
+                    {!!row.summary.content ? (
+                      <CustomTooltip title={row.summary.content}>
+                        <div>
+                          <Typography text={row.summary.content} />
+                        </div>
+                      </CustomTooltip>
+                    ) : (
+                      ""
+                    )}
+                  </TableCell>
+                  <TableCell align="right">
+                    {row.alternate.map((item: Alternate) => (
+                      <Link
+                        key={item.href}
+                        target="_blank"
+                        href={item.href}
+                        type={item.type}
+                      >
+                        Link
+                      </Link>
+                    ))}
+                  </TableCell>
+                  <TableCell align="right">
+                    <img
+                      className={customTableStyled.customTableWrapperImage}
+                      alt="News view"
+                      src={row.visual.url}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography text={row.canonicalUrl} />
+                  </TableCell>
+                  <TableCell align="right">
+                    {TransferBooleanPipe(row.unread, readingLabelsStatus)}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

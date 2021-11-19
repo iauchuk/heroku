@@ -7,25 +7,29 @@ interface usersReducerInterface {
   isUsersChanging?: boolean;
   isUsersAdding?: boolean;
   isUserDeleting?: boolean;
+  isFetching?: boolean;
 }
 
 interface newsReducerInterface {
   newsList: NewsItem[];
   isNewsLoading?: boolean;
+  isFetching?: boolean;
 }
 
 interface rolesReducerInterface {
   rolesList: any;
   isRolesLoading?: boolean;
+  isFetching?: boolean;
 }
 
 interface newsReducerInterface {
   userRolesList: NewsItem[];
   isUserRolesListLoading?: boolean;
+  isFetching?: boolean;
 }
 
 export interface StoreStateInterface {
   news?: newsReducerInterface;
-  users?: usersReducerInterface;
+  users?: any;
   roles?: rolesReducerInterface;
 }

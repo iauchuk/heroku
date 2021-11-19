@@ -13,6 +13,7 @@ const newsSlice = createSlice({
       return {
         ...state,
         isNewsLoading: true,
+        isFetching: true,
       };
     },
     [getNews.fulfilled]: (state, action) => {
@@ -20,12 +21,14 @@ const newsSlice = createSlice({
         ...state,
         newsList: action.payload.items,
         isNewsLoading: false,
+        isFetching: false,
       };
     },
     [getNews.rejected]: (state) => {
       return {
         ...state,
         isNewsLoading: false,
+        isFetching: false,
       };
     },
   },

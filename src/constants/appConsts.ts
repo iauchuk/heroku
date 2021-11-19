@@ -5,6 +5,6 @@ export const default_time_format = "DD.MM.YYYY HH-MM-SS";
 export const default_regexp = new RegExp("[a-zA-Z]{1,9}");
 export const userInfoInitial = { name: "", surname: "", role: "" };
 export const readingLabelsStatus = {
-  truthy: "Прочитано",
-  falsy: "Не прочитано",
+  truthy: "Read",
+  falsy: "Unread",
 };

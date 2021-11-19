@@ -6,7 +6,7 @@ import { UsersInfo } from "../usersInfo/usersInfo";
 const Routing = () => {
   return (
     <div>
-      <BrowserRouter basename="/heroku">
+      <BrowserRouter basename="/">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
