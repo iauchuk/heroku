@@ -1,34 +1,53 @@
 import { isPresent } from "../../../../helpers/helpers";
 import * as _ from "lodash";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreStateInterface } from "../../../../interfaces/storeStateInterface/storeStateInterface";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { MultiGrid, AutoSizer } from "react-virtualized";
-import { EditBlock } from "../../../editBlock/editBlock";
+import { Checkbox } from "@mui/material";
 
 interface MultiGridConfigInterface {
-  editUserItem: any;
-  deleteUserItem: any;
-  styled: any;
+  editUserItem?: any;
+  deleteUserItem?: any;
+  styled?: any;
+  handleCheckbox?: any;
 }
 
 const MultiGridConfig = (props: MultiGridConfigInterface) => {
-  const { styled, editUserItem, deleteUserItem } = props;
-
+  const { styled, handleCheckbox } = props;
+  const headercolumns = [
+    { name: "check", displayName: "check", width: 100 },
+    { name: "name", displayName: "Name", width: 400 },
+    { name: "surname", displayName: "Surname", width: 480 },
+    { name: "role", displayName: "Role", width: 420 },
+    { name: "id", displayName: "id", width: 420 },
+    { name: "action", displayName: "Action", width: 400 },
+  ];
+  const rowHeight = 40;
   const userInfoList = useSelector(
     (state: StoreStateInterface) => state?.users?.usersList
   );
-  const headercolumns = [
-    { name: "name", displayName: "Name", width: 120 },
-    { name: "surname", displayName: "Surname", width: 80 },
-    { name: "role", displayName: "Role", width: 120 },
-    { name: "id", displayName: "id", width: 120 },
-    { name: "action", displayName: "Action", width: 400 },
-  ];
 
-  const rowHeight = 40;
+  const initialState = userInfoList.reduce(
+    (state: any, current: { id: any }) =>
+      Object.assign(state, { [current.id]: false }),
+    {}
+  );
+  const [checkboxStatus, setCheckboxStatus] = useState(initialState);
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    userId: number
+  ) => {
+    const { checked } = event.target;
+    handleCheckbox(userId);
+    setCheckboxStatus((prevState: any) => ({
+      ...prevState,
+      [userId]: checked,
+    }));
+  };
 
   const rowCountRenderer = () => {
     if (!isPresent(userInfoList)) {
@@ -58,8 +77,6 @@ const MultiGridConfig = (props: MultiGridConfigInterface) => {
         return _.values(item);
       });
 
-      rowsList.push();
-
       if (
         !isPresent(rowsList) ||
         !isPresent(rowsList[rowIndex]) ||
@@ -68,16 +85,14 @@ const MultiGridConfig = (props: MultiGridConfigInterface) => {
         return "";
       }
 
-      if (columnIndex === headercolumns.length - 1) {
+      if (columnIndex === 0) {
         return (
           <div key={key} style={style}>
-            <EditBlock
-              primaryEvent={() => {
-                editUserItem(userInfoList[rowIndex]?.id);
-              }}
-              secondaryEvent={() => {
-                deleteUserItem(userInfoList[rowIndex].id);
-              }}
+            <Checkbox
+              checked={checkboxStatus[userInfoList[rowIndex].id]}
+              onChange={(event) =>
+                handleChange(event, userInfoList[rowIndex].id)
+              }
             />
           </div>
         );

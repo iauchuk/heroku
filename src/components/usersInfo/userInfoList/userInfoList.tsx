@@ -43,6 +43,10 @@ export const UserInfoList = () => {
     setStatusDialog(flag);
   };
 
+  const handleChange = (value: any) => {
+    console.log("value", value);
+  };
+
   const editUserItem = (id: string) => {
     setEditableUser(_.find(userInfoList, { id: id }) as UsersInfoInterface);
     setStatusDialog(true);
@@ -104,6 +108,14 @@ export const UserInfoList = () => {
               )
             )}
           </List>
+          {!!userInfoList ? (
+            <MultiGridConfig
+              styled={userInfoListStyled}
+              handleCheckbox={handleChange}
+            />
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <Typography text={userInfoListLabels.emptyList} />

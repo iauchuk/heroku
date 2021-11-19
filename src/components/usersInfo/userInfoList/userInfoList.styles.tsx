@@ -2,16 +2,32 @@ import { makeStyles } from "@mui/styles";
 
 const styledUserInfoList = makeStyles({
   topLeftGrid: {
-    background: "yellow",
+    background: "grey",
   },
   topRightGrid: {
-    background: "green",
+    background: "grey",
   },
   bottomLeftGrid: {
-    background: "blue",
+    background: "grey",
   },
   bottomRightGrid: {
-    background: "orange",
+    background: "lightgrey",
+    "&::-webkit-scrollbar": {
+      width: `6px`,
+      height: `6px`,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      borderWidth: 0,
+      borderRadius: `5px`,
+      backgroundColor: `gray`,
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: `darkgray`,
+    },
+
+    "&::-webkit-scrollbar-track": {
+      borderWidth: 0,
+    },
   },
   userInfoElement: {
     "&.MuiListItem-root": {
