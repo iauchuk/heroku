@@ -20,7 +20,7 @@
         "react",
         "@typescript-eslint"
     ],
-    "ignorePatterns": ["userInfoHeader.tsx", "userInfoList.tsx", "userInfo.reducer.tsx", "customTable.tsx"],
+    "ignorePatterns": ["server.js","index.js","userInfoHeader.tsx", "userInfoList.tsx", "userInfo.reducer.tsx", "customTable.tsx"],
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
