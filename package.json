@@ -3,7 +3,8 @@
   "name": "newbase",
   "version": "0.1.0",
   "engines": {
-    "node": "16.x"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "private": true,
   "dependencies": {
@@ -49,7 +50,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "set PORT=4100 && react-scripts start && node index.js",
+    "start": "set PORT=4100 && react-scripts start && node",
     "build": "react-scripts build",
     "test": "react-scripts test && jest",
     "eject": "react-scripts eject",
