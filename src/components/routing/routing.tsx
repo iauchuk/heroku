@@ -1,22 +1,32 @@
 import * as React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "../dashboard/dashboard";
 import { UsersInfo } from "../usersInfo/usersInfo";
-import ScrollingTop from "../scrollingTop/scrollingTop";
+import Login from "../auth/login/login";
+import { createBrowserHistory } from "history";
+import { Route, Router, Switch } from "react-router-dom";
+
+const history = createBrowserHistory();
 
 const Routing = () => {
   return (
     <div>
-      <BrowserRouter basename="/">
-        <ScrollingTop />
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users-info" element={<UsersInfo />} />
-        </Routes>
-      </BrowserRouter>
+      <Router history={history}>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/users-info" component={UsersInfo} />
+        </Switch>
+      </Router>
     </div>
   );
 };
 
+// <ScrollingTop />
+//        <Routes>
+//          <Route path="/login" element={<Login />} />
+//          <Route path="/" element={<Dashboard />} />
+//          <Route path="/dashboard" element={<Dashboard />} />
+//          <Route path="/users-info" element={<UsersInfo />} />
+//        </Routes>
 export default Routing;

@@ -28,8 +28,15 @@ interface newsReducerInterface {
   isFetching?: boolean;
 }
 
+interface tokensReducerInterface {
+  isFetching?: boolean;
+  isTokensLoading?: boolean;
+  token?: string[];
+}
+
 export interface StoreStateInterface {
   news?: newsReducerInterface;
-  users?: any;
+  users?: usersReducerInterface | any;
   roles?: rolesReducerInterface;
+  tokens?: tokensReducerInterface | any;
 }
