@@ -2,12 +2,15 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { headerLabels } from "./header.labels";
 import styledHeader from "./header.styles";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 const Header = () => {
   const setActive = ({ isActive }: any) =>
-    isActive ? (clsx(headerStyled.headerItem, {[headerStyled.headerItemActive]: true})) : (headerStyled.headerItem);
-   const headerStyled = styledHeader({color: 'black'});
+    isActive
+      ? clsx(headerStyled.headerItem, { [headerStyled.headerItemActive]: true })
+      : headerStyled.headerItem;
+
+  const headerStyled = styledHeader({ color: "black" });
 
   return (
     <div className={headerStyled.header}>
